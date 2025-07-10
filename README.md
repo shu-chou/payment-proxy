@@ -183,6 +183,55 @@ The system uses configurable heuristics to calculate a risk score (0-1):
 - Cache TTL: Configurable via `CACHE_TTL_SECONDS` (default: 1 hour)
 - Reduces API costs and improves response times
 
+## LLM Model Details
+
+### Google Gemma 3 12B
+
+This project uses **Google Gemma 3 12B** as the underlying language model for generating human-readable explanations of fraud risk assessments and payment routing decisions.
+
+**Model Specifications:**
+- **Model**: `google/gemma-3-12b`
+- **Parameters**: 12 billion parameters
+- **Context Length**: 8K tokens
+- **Provider**: [OpenRouter](https://openrouter.ai/)
+
+### Why Gemma 3 12B?
+
+1. **Performance**: Excellent reasoning capabilities for financial risk assessment
+2. **Cost-Effective**: Competitive pricing through OpenRouter
+3. **Reliability**: Stable API with good uptime
+4. **Multilingual**: Supports multiple languages for global applications
+
+### OpenRouter Integration
+
+We use [OpenRouter](https://openrouter.ai/) as our LLM provider, which offers:
+
+- **Unified API**: Access to multiple LLM providers through a single interface
+- **Cost Optimization**: Automatic routing to the most cost-effective models
+- **Reliability**: Built-in fallbacks and redundancy
+- **Analytics**: Detailed usage analytics and cost tracking
+
+**Getting Started with OpenRouter:**
+1. Sign up at [https://openrouter.ai/](https://openrouter.ai/)
+2. Generate an API key in your dashboard
+3. Add the key to your `.env` file as `OPENROUTER_API_KEY`
+
+### Prompt Engineering
+
+Our prompts are designed to generate concise, one-sentence explanations that explain:
+- The risk factors that influenced the decision
+- Why a specific payment provider was chosen
+- The overall risk assessment rationale
+
+Example prompt structure:
+```
+Explain in one sentence why this payment was routed to [provider] based on:
+- Amount: $[amount]
+- Email domain: [domain]
+- Risk score: [score]
+- Risk factors: [factors]
+```
+
 ## Configuration Files
 
 ### fraud.rules.json
