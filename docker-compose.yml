@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: payment-proxy-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  app:
+    build: .
+    container_name: payment-proxy
+    ports:
+      - "3000:3000"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      # Add other env vars as needed, or use .env
+    depends_on:
+      - redis
+    restart: unless-stopped
+    env_file:
+      - .env
+
+volumes:
+  redis-data: 

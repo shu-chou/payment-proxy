@@ -1,0 +1,89 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Mini Payment Gateway Proxy API",
+    "version": "1.0.0",
+    "description": "API documentation for the Mini Payment Gateway Proxy"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/charge": {
+      "post": {
+        "summary": "Simulate a payment charge and risk analysis",
+        "tags": ["Payments"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": { "type": "integer", "example": 1000 },
+                  "currency": { "type": "string", "example": "USD" },
+                  "source": { "type": "string", "example": "tok_test" },
+                  "email": { "type": "string", "example": "donor@example.com" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment processed or blocked with risk analysis",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transactionId": { "type": "string", "nullable": true, "example": "txn_abc123" },
+                    "provider": { "type": "string", "nullable": true, "example": "paypal" },
+                    "status": { "type": "string", "example": "success" },
+                    "riskScore": { "type": "number", "example": 0.32 },
+                    "explanation": { "type": "string", "example": "This payment was routed to PayPal due to a moderately high low score based on a large amount and a suspicious email domain." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions": {
+      "get": {
+        "summary": "Get all payment transactions",
+        "tags": ["Transactions"],
+        "responses": {
+          "200": {
+            "description": "List of all payment transactions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "timestamp": { "type": "string", "format": "date-time", "example": "2024-07-09T12:34:56.789Z" },
+                      "transactionId": { "type": "string", "nullable": true, "example": "txn_abc123" },
+                      "provider": { "type": "string", "nullable": true, "example": "paypal" },
+                      "status": { "type": "string", "example": "success" },
+                      "riskScore": { "type": "number", "example": 0.32 },
+                      "explanation": { "type": "string", "example": "This payment was routed to PayPal due to a moderately high low score based on a large amount and a suspicious email domain." },
+                      "amount": { "type": "integer", "example": 1000 },
+                      "currency": { "type": "string", "example": "USD" },
+                      "email": { "type": "string", "example": "donor@example.com" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+} 

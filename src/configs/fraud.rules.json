@@ -1,0 +1,10 @@
+{
+  "largeAmount": {
+    "threshold": 1000,
+    "weight": 0.4
+  },
+  "suspiciousDomains": {
+    "domains": [".ru", "test.com"],
+    "weight": 0.6
+  }
+} 
